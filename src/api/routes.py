@@ -149,6 +149,18 @@ class MyEventHandler(AsyncAgentEventHandler[str]):
 
             stream_data = await get_message_and_annotations(self.agent_client, message)
             stream_data['type'] = "completed_message"
+
+            agent_name = None
+            if getattr(message, "agent_id", None):
+                try:
+                    agent_obj = await self.agent_client.agents.get_agent(message.agent_id)
+                    agent_name = agent_obj.name
+                except Exception as ex:  # pragma: no cover - best effort logging
+                    logger.warning(f"Unable to fetch agent name: {ex}")
+
+            if agent_name:
+                stream_data['agent_name'] = agent_name
+
             return serialize_sse_event(stream_data)
         except Exception as e:
             logger.error(f"Error in event handler for thread message: {e}", exc_info=True)
