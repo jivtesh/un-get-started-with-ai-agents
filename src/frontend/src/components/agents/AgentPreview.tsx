@@ -307,6 +307,9 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                 clearAssistantMessage(chatItem);
                 accumulatedContent = data.content;
                 annotations = data.annotations;
+                if (data.agent_name) {
+                  chatItem.agentName = data.agent_name;
+                }
                 isStreaming = false;
                 console.log(
                   "[ChatClient] Received completed message:",
@@ -339,7 +342,12 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
   };
 
   const createAssistantMessageDiv: () => IChatItem = () => {
-    var item = { id: crypto.randomUUID(), content: "", isAnswer: true, more: { time: new Date().toISOString() } };
+    var item: IChatItem = {
+      id: crypto.randomUUID(),
+      content: "",
+      isAnswer: true,
+      more: { time: new Date().toISOString() },
+    };
     setMessageList((prev) => [...prev, item]);
     return item;
   };

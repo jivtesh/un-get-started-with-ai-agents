@@ -30,6 +30,7 @@ export interface IChatItem {
   role?: string;
   content: string;
   isAnswer?: boolean;
+  agentName?: string;
   annotations?: any[];
   fileReferences?: Map<string, any>;
   duration?: number;
