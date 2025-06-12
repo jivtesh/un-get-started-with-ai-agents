@@ -153,7 +153,7 @@ class MyEventHandler(AsyncAgentEventHandler[str]):
             agent_name = None
             if getattr(message, "agent_id", None):
                 try:
-                    agent_obj = await self.agent_client.agents.get_agent(message.agent_id)
+                    agent_obj = await self.agent_client.get_agent(message.agent_id)
                     agent_name = agent_obj.name
                 except Exception as ex:  # pragma: no cover - best effort logging
                     logger.warning(f"Unable to fetch agent name: {ex}")
